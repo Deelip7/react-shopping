@@ -6,8 +6,6 @@ import Rating from '../components/Rating';
 
 const ProductScreen = ({ match }) => {
   const [product, setProduct] = useState([]);
-  {
-  }
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -35,7 +33,7 @@ const ProductScreen = ({ match }) => {
               <Rating value={product.rating} text={`${product.numReviews} reviews`} />
             </ListGroup.Item>
             <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
-            <ListGroup.Item>Discription: ${product.description}</ListGroup.Item>
+            <ListGroup.Item>Discription: {product.description}</ListGroup.Item>
           </ListGroup>
         </Col>
         <Col md={3}>
