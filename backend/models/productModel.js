@@ -1,4 +1,4 @@
-import mangoose, { Mongoose } from 'mongoose';
+import mongoose from 'mongoose';
 
 const reviewSchema = mongoose.Schema(
   {
@@ -18,7 +18,7 @@ const reviewSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-const productSchema = Mongoose.Schema(
+const productSchema = mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
