@@ -1,8 +1,11 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const products = require('./data/products');
+import express from 'express';
+import dotenv from 'dotenv';
+import products from './data/products.js';
+import connectDB from './config/db.js';
+
 const app = express();
 dotenv.config();
+connectDB();
 
 app.get('/', (req, res) => {
   res.send('API is running');
@@ -13,7 +16,7 @@ app.get('/api/products', (req, res) => {
 });
 
 app.get('/api/products/:id', (req, res) => {
-  const product = products.find((p) => p._id === req.params.id);
+  const product = find((p) => p._id === req.params.id);
   res.json(product);
 });
 
