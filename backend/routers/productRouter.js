@@ -11,6 +11,8 @@ router.get(
   '/',
   asyncHandler(async (req, res) => {
     const products = await Product.find({});
+    // res.status(404);
+    // throw new Error('THIS IS AN ERROR MSG');
     res.json(products);
   })
 );
