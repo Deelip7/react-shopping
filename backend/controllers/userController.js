@@ -75,7 +75,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(401);
-    throw new Error('User not found -Invaild email or password');
+    throw new Error('User not found - Invaild email or password');
   }
 });
 
