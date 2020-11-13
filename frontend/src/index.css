@@ -9,3 +9,7 @@ h4 {
 .rating span {
   margin: 0.1rem;
 }
+
+.nav-link {
+  color: rgb(32, 32, 32);
+}
