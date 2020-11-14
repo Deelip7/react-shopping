@@ -20,8 +20,10 @@ const OrderScreen = ({ match }) => {
   }
 
   useEffect(() => {
-    dispatch(getOrderDetails(orderId));
-  }, []);
+    if (!order || order._id !== orderId) {
+      dispatch(getOrderDetails(orderId));
+    }
+  }, [dispatch, order, orderId]);
 
   return loading ? (
     <Loader />
@@ -33,22 +35,37 @@ const OrderScreen = ({ match }) => {
         <Col md={8}>
           <ListGroup variant='flush'>
             <ListGroup.Item>
-              <h5>Order Id: {order._id}</h5>
-              <h4>Shipping</h4>
+              <h3>Shipping</h3>
               <p>
-                <strong>Address:</strong>
+                <strong>Name: </strong>
+                {order.user.name}
+              </p>
+              <p>
+                <strong>Email: </strong>
+                {order.user.email}
+              </p>
+              <p>
+                <strong>Order Id: </strong>
+                {order._id}
+              </p>
+              <p>
+                <strong>Address: </strong>
                 {order.shippingAddress.address}, {order.shippingAddress.city} {order.shippingAddress.postalCode}, {order.shippingAddress.country}
               </p>
+              {order.isDelivered ? <Message variant='success'>Delivered</Message> : <Message variant='light'>Not Delivered</Message>}
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h4>Payment Method</h4>
-              <strong>Method: </strong>
-              {order.paymentMethod}
+              <h3>Payment Method</h3>
+              <p>
+                <strong>Method: </strong>
+                {order.paymentMethod}
+              </p>
+              {order.isPaid ? <Message variant='success'>Paid</Message> : <Message variant='light'>Not Paid</Message>}
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h4>Order Items</h4>
+              <h3>Order Items</h3>
               {order.orderItems.length === 0 ? (
                 <Message>Your order is empty</Message>
               ) : (
@@ -77,7 +94,7 @@ const OrderScreen = ({ match }) => {
           <Card>
             <ListGroup variant='flush'>
               <ListGroup.Item>
-                <h4>Order Summary</h4>
+                <h3>Order Summary</h3>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
