@@ -4,8 +4,7 @@ import { Table, Row, Col, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { listproduct, deleteUsers } from '../actions/userActions';
-import { listProducts } from '../actions/productActions';
+import { listProducts, deleteProducts } from '../actions/productActions';
 
 const ProductListScreen = ({ history, match }) => {
   const dispatch = useDispatch();
@@ -16,19 +15,22 @@ const ProductListScreen = ({ history, match }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const productDelete = useSelector((state) => state.productDelete);
+  const { success: successDelete } = productDelete;
+
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
       dispatch(listProducts());
     } else {
       history.push('/login');
     }
-  }, [dispatch, history, userInfo]);
+  }, [dispatch, history, userInfo, successDelete]);
 
   const createProductHandler = (product) => {};
 
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure')) {
-      //   dispatch(deleteUsers(id));
+      dispatch(deleteProducts(id));
     }
   };
 
@@ -58,6 +60,7 @@ const ProductListScreen = ({ history, match }) => {
               <th>PRICE</th>
               <th>CATEGORY</th>
               <th>BRAND</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
