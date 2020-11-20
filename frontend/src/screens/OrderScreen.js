@@ -87,7 +87,7 @@ const OrderScreen = ({ match, history }) => {
         <Col md={8}>
           <ListGroup variant='flush'>
             <ListGroup.Item>
-              <h3>Shipping</h3>
+              <h4>Shipping</h4>
               <p>
                 <strong>Name: </strong> {order.user.name}
               </p>
@@ -95,23 +95,23 @@ const OrderScreen = ({ match, history }) => {
                 <strong>Email: </strong> <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
               </p>
               <p>
-                <strong>Address: </strong>
+                <strong>Address:</strong>
                 {order.shippingAddress.address}, {order.shippingAddress.city} {order.shippingAddress.postalCode}, {order.shippingAddress.country}
               </p>
-              {order.isDelivered ? <Message variant='success'>Delivered on {order.deliveredAt}</Message> : <Message variant='danger'>Not Delivered</Message>}
+              {order.isDelivered ? <Message variant='success'>Delivered</Message> : <Message variant='danger'>Not Delivered</Message>}
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h3>Payment Method</h3>
+              <h4>Payment Method</h4>
               <p>
                 <strong>Method: </strong>
                 {order.paymentMethod}
               </p>
-              {order.isPaid ? <Message variant='success'>Paid on {order.paidAt}</Message> : <Message variant='danger'>Not Paid</Message>}
+              {order.isPaid ? <Message variant='success'>Paid on {order.paidAt.substring(0, 10)}</Message> : <Message variant='danger'>Not Paid</Message>}
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h3>Order Items</h3>
+              <h4>Order Items</h4>
               {order.orderItems.length === 0 ? (
                 <Message>Order is empty</Message>
               ) : (
@@ -140,7 +140,7 @@ const OrderScreen = ({ match, history }) => {
           <Card>
             <ListGroup variant='flush'>
               <ListGroup.Item>
-                <h3>Order Summary</h3>
+                <h4>Order Summary</h4>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>

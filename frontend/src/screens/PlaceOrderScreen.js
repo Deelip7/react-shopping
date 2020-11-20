@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { createOrder } from '../actions/orderActions';
+import { ORDER_CREATE_RESET } from '../constants/orderConstant';
+import { USER_DETAILS_RESET } from '../constants/userConstant';
 
 const PlaceOrderScreen = ({ history }) => {
   const dispatch = useDispatch();
@@ -17,12 +19,14 @@ const PlaceOrderScreen = ({ history }) => {
     history.push('/payment');
   }
   //   Calculate prices
-  const addDecimals = (num) => (Math.round(num * 100) / 100).toFixed(2);
+  const addDecimals = (num) => {
+    return (Math.round(num * 100) / 100).toFixed(2);
+  };
 
   cart.itemsPrice = addDecimals(cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0));
-  cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 25);
-  cart.taxPrice = addDecimals(Number((0.12 * cart.itemsPrice).toFixed(2)));
-  cart.totalPrice = addDecimals(Number(cart.itemsPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice));
+  cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 100);
+  cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)));
+  cart.totalPrice = (Number(cart.itemsPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice)).toFixed(2);
 
   const orderCreate = useSelector((state) => state.orderCreate);
   const { order, success, error } = orderCreate;
@@ -30,6 +34,8 @@ const PlaceOrderScreen = ({ history }) => {
   useEffect(() => {
     if (success) {
       history.push(`/order/${order._id}`);
+      dispatch({ type: USER_DETAILS_RESET });
+      dispatch({ type: ORDER_CREATE_RESET });
     }
     // eslint-disable-next-line
   }, [history, success]);
@@ -55,7 +61,7 @@ const PlaceOrderScreen = ({ history }) => {
         <Col md={8}>
           <ListGroup variant='flush'>
             <ListGroup.Item>
-              <h4>Shipping</h4>
+              <h3>Shipping</h3>
               <p>
                 <strong>Address:</strong>
                 {cart.shippingAddress.address}, {cart.shippingAddress.city} {cart.shippingAddress.postalCode}, {cart.shippingAddress.country}
@@ -63,13 +69,13 @@ const PlaceOrderScreen = ({ history }) => {
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h4>Payment Method</h4>
+              <h3>Payment Method</h3>
               <strong>Method: </strong>
               {cart.paymentMethod}
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h4>Order Items</h4>
+              <h3>Order Items</h3>
               {cart.cartItems.length === 0 ? (
                 <Message>Your cart is empty</Message>
               ) : (
@@ -98,7 +104,7 @@ const PlaceOrderScreen = ({ history }) => {
           <Card>
             <ListGroup variant='flush'>
               <ListGroup.Item>
-                <h4>Order Summary</h4>
+                <h3>Order Summary</h3>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
